@@ -1,0 +1,53 @@
+*** EVALUATION ***
+ANSI-C/cC++ Compiler for HC12 V-5.0.41 Build 10203, Jul 23 2010
+
+    1:  #include <hidef.h>      /* common defines and macros */
+    2:  #include "derivative.h"      /* derivative-specific definitions */
+    3:  #include "initialize.h"
+    4:  #include "CANRAS.h"
+    5:  #include "L9658.h"
+    6:  #include "Damper.h"
+    7:  
+    8:  uint CANID1[4]={0x400,0x432,0x0FD,0x086};
+    9:  uint CANID2[2]={0x318,0x319};
+   10:  uchar Redata[8];
+   11:  extern OS_STK PORTB_1000ms_STK[TASK_STK_SIZE];
+   12:  extern OS_STK DamperControl_STK[TASK_STK_SIZE];
+   13:  
+   14:  void PORTB_1000ms(void *pdata)          //用于调试，后期可删去
+   15:  {
+*** EVALUATION ***
+
+Function: PORTB_1000ms
+Source  : C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\Sources\main.c
+Options : -CPUHCS12XE -Env"GENPATH=C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar;C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\bin;C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\prm;C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\cmd;C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\Sources;F:\CW\lib\HC12c\lib;F:\CW\lib\HC12c\src;C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\Sources\Vb2I;C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\Sources\uCOS_II;C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\Sources\CFG;C:\Users\dell\Desktop\基金会工作\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\Sources\Vb2I;F:\CW\lib\HC12c\include" -EnvLIBPATH=F:\CW\lib\HC12c\include -Env"OBJPATH=C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\bin" -Env"TEXTPATH=C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\bin" -Lasm="C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\MICS_Data\Standard\ObjectCode\main.c.o.lst" -Ms -ObjN="C:\Users\dell\Desktop\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\20250109高度控制 充气改进策略+纯储气罐+delta修改 18bar\MICS_Data\Standard\ObjectCode\main.c.o" -WmsgSd1106
+
+   16:    for(;;)
+   17:    {
+   18:      digital = ATD0DR4;
+  0000 f60000       [3]     LDAB  _ATD0DR4:1
+  0003 7b0000       [3]     STAB  digital
+   19:      Vol_gas = Dig2Vol(digital); //或者Vol_gas = 0.0205*digital-0.3516;
+  0006 160000       [4]     JSR   Dig2Vol
+  0009 7c0000       [3]     STD   Vol_gas:2
+  000c 7e0000       [3]     STX   Vol_gas
+   20:      gas_presure = 4.86 * Vol_gas - 2.45;//单位是bar
+  000f cd851f       [2]     LDY   #34079
+  0012 35           [2]     PSHY  
+  0013 cd409b       [2]     LDY   #16539
+  0016 35           [2]     PSHY  
+  0017 160000       [4]     JSR   _FMUL
+  001a cdcccd       [2]     LDY   #52429
+  001d 6da1         [2]     STY   2,+SP
+  001f cdc01c       [2]     LDY   #49180
+  0022 35           [2]     PSHY  
+  0023 160000       [4]     JSR   _FADD
+  0026 1b84         [2]     LEAS  4,SP
+  0028 7c0000       [3]     STD   gas_presure:2
+  002b 7e0000       [3]     STX   gas_presure
+   21:      //PORTA_PA2=~PORTA_PA2;
+   22:      OSTimeDly(5);   //RTI设置为5ms中断一次时，延时200个节拍为1秒
+  002e c605         [1]     LDAB  #5
+  0030 87           [1]     CLRA  
+  0031 160000       [4]     JSR   OSTimeDly
+  0034 20ca         [3]     BRA   *-52 ;abs = 0000

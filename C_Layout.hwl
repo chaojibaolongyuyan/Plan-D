@@ -1,0 +1,10 @@
+OPEN source 0 0 60 39
+Source < attributes TOOLTIP on,TOOLTIP_FORMAT signed,TOOLTIP_MODE details,FREEZE off,MARKS off
+OPEN data 60 0 39 101
+Data:1 < attributes SCOPE global,COMPLEMENT None,FORMAT Symb,MODE periodical,SORT NotSort,UPDATERATE 10,NAMEWIDTH 16
+OPEN data 0 39 60 61
+Data:2 < attributes SCOPE local,COMPLEMENT None,FORMAT Symb,MODE periodical,SORT NotSort,UPDATERATE 10,NAMEWIDTH 16
+bckcolor 50331647
+font 'Courier New' 9 BLACK
+AUTOSIZE on
+ACTIVATE "Source" "Data:2" "Data:1"
